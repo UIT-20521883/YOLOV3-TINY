@@ -47,5 +47,9 @@ Cài đặt tất cả các tool/ thư viện sau:
 + sudo apt update
 + sudo apt install gcc-11 g++-11
 
-
+### Phụ lục bổ sung:
+Nếu gặp lỗi: /usr/bin/ld: obj/detector.o: in function `run_detector(int, char**)':
+                                  detector.c:(.text+0x43c9): undefined reference to `demoX'<br>
+                                  Thêm demoX.o vào OBJ+=
+                                  
 
