@@ -25,25 +25,27 @@ Cài đặt tất cả các tool/ thư viện sau:
 
   ### Thư viện OpenBlas
   Cài đặt thư viện openBlas mới nhất bằng cú pháp sau:
-$ git clone https://github.com/xianyi/OpenBLAS
-$ cd OpenBLAS
-$ make
-$ make PREFIX=/usr/local install   
++ $ git clone https://github.com/xianyi/OpenBLAS
++ $ cd OpenBLAS
++ $ make
++ $ make PREFIX=/usr/local install   
   ### Thư viện OpenCV
   Cài đặt thư viện OpenCV phiên bản 2.4 hoặc thấp hơn:
-$ git clone https://github.com/opencv/opencv.git
-$ cd opencv
-$ git checkout 2.4
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-$ sudo make install
-
-
-
-
-
-
-  
++ $ git clone https://github.com/opencv/opencv.git
++ $ cd opencv
++ $ git checkout 2.4
++ $ mkdir build
++ $ cd build
++ $ cmake ..
++ $ make
++ $ sudo make install
   ### Toolchain gcc
++ sudo apt update
++ sudo apt install build-essential
++ Check version: gcc --version( Thực hiện các bước sau nếu phương bản đã cài đặt không phải phiên bản mới nhất).
++ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
++ sudo apt update
++ sudo apt install gcc-11 g++-11
+
+
+
