@@ -52,4 +52,17 @@ Nếu gặp lỗi: /usr/bin/ld: obj/detector.o: in function `run_detector(int, c
                                   detector.c:(.text+0x43c9): undefined reference to `demoX'<br>
                                   Thêm demoX.o vào OBJ+=
                                   
-
+#Make Linux image 32G
+##1. Build lại rootfs
+##2. Sau đó copy các thành phần sau vào thư mục rootfs/root và nhớ cấp quyền sudo chmod -R 755 rootfs/root
+	a. opencl_arm
+	b. PipeCNN
+	c. opencv 3.4.15
+##3. Sử dụng môi trường ảo để cài các package cần thiết follow thinkoco
+	https://github.com/thinkoco/c5soc_opencl/blob/master/documents/HowToBuildSDImage.md
+##4. Cài đặt các package cần thiết cho opencv 3.4.15
+	https://qiita.com/element/items/9f22ad95f227b6421b9c#opencv%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB-1
+##5. Install vncserver
+	https://www.youtube.com/watch?v=ohIBPCCFVyQ&t=1s
+##6. Build sd card image
+	sudo ./make_sdimage_p3.py -f -P uboot_w_dtb-mkpimage.bin,num=3,format=raw,size=10M,type=A2 -P rootfs/*,num=2,format=ext3,size=14000M -P zImage,socfpga.rbf,socfpga_arria10_socdk_sdmmc.dtb,num=1,format=vfat,size=1000M -s 15200M -n sdimage_a10_cv2.img
