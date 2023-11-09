@@ -71,7 +71,7 @@ sudo ./ch-mount.sh -m ./rootfs/
 Now,in chroot environment
 
 ```
-#set DNS 8.8.8.8 or 114.114.114.114
+# set DNS 8.8.8.8 or 114.114.114.114
 echo nameserver 8.8.8.8 > /etc/resolv.conf
 
 #install minimal packages required for X server and some core utils
