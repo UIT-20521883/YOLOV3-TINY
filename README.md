@@ -56,6 +56,8 @@ Nếu gặp lỗi: /usr/bin/ld: obj/detector.o: in function `run_detector(int, c
 Download essential files here form Build folder(ask Mr. Truong if you don't have permission): https://drive.google.com/drive/folders/11iGXC7THoxfNUEgtJbBwwkZr2vlbAjyC?usp=drive_link
 ## 1. Build lại rootfs
 UNzip and open the folder Build<br>
+...
+
 sudo apt install qemu-user-static<br>
 chmod +x ch-mount.sh<br>
 mkdir rootfs<br>
@@ -63,12 +65,13 @@ sudo tar xpf ubuntu-base-18.04.5-base-armhf.tar.gz -C rootfs/<br>
 sudo cp /usr/bin/qemu-arm-static rootfs/usr/bin/<br>
 ```
 Mount proc, sys, dev, dev/pts to new fileystem
+
 ```
 sudo ./ch-mount.sh -m ./rootfs/
 ```
 Now,in chroot environment
 
-```
+
 # set DNS 8.8.8.8 or 114.114.114.114
 echo nameserver 8.8.8.8 > /etc/resolv.conf
 
