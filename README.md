@@ -71,10 +71,10 @@ sudo ./ch-mount.sh -m ./rootfs/
 Now,in chroot environment
 
 ```
-# set DNS 8.8.8.8 or 114.114.114.114
+#set DNS 8.8.8.8 or 114.114.114.114
 echo nameserver 8.8.8.8 > /etc/resolv.conf
 
-# install minimal packages required for X server and some core utils
+#install minimal packages required for X server and some core utils
 apt update
 apt-get install language-pack-en-base vim sudo ssh net-tools ethtool wireless-tools lxde xfce4-power-manager xinit xorg xserver-xorg-video-fbdev xserver-xorg-input-all network-manager ntpdate iputils-ping lightdm-gtk-greeter alsa-utils mplayer lightdm bash-completion lxtask htop python-gobject-2 python-gtk2 --no-install-recommends
 apt-get install synaptic
@@ -85,26 +85,26 @@ echo "a10soc">/etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "127.0.1.1 a10soc" >> /etc/hosts
 
-# Now add a user of your choice and include him in suitable groups
+#Now add a user of your choice and include him in suitable groups
 adduser knat && addgroup knat adm && addgroup knat sudo && addgroup knat audio
 
-# set root without password
+#set root without password
 sed -i 's/^root\:\*/root\:/g' /etc/shadow 
 
-# modify getty@.service
+#modify getty@.service
 sed -i 's/^ExecStart=-\/sbin\/agetty.*$/ExecStart=-\/sbin\/agetty --noclear %I $TERM/' /lib/systemd/system/getty@.service
 
-# set lightdm.conf
+#set lightdm.conf
 echo -e "[SeatDefaults]\nautologin-user=root\nautologin-user-timeout=0" > /etc/lightdm/lightdm.conf
 
-# set rc.local 
+#set rc.local 
 echo -e '#!/bin/sh -e\n#\n# rc.local\n#\n#In order to enable or disable this script just change the execution bits\n\nmodprobe altvipfb\nservice lightdm start\nmount -t vfat /dev/mmcblk0p1 /mnt\n\nexit 0' > /etc/rc.local
 
 chmod +x /etc/rc.local
 
 echo -e 'auto lo\niface lo inet loopback\n\nauto eth0\niface eth0 inet dhcp' > /etc/network/interfaces
 
-# update DNS automatically,Set ‘timezone’,Make X used by ‘anyuser’
+#update DNS automatically,Set ‘timezone’,Make X used by ‘anyuser’
 dpkg-reconfigure tzdata
 
 dpkg-reconfigure network-manager
@@ -113,7 +113,7 @@ dpkg-reconfigure resolvconf
 
 dpkg-reconfigure x11-common
 
-# exit chroot environment
+#exit chroot environment
 exit
 ```
 Now,umount proc, sys, dev, dev/pts 
