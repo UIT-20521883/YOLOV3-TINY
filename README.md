@@ -53,16 +53,77 @@ Nếu gặp lỗi: /usr/bin/ld: obj/detector.o: in function `run_detector(int, c
                                   Thêm demoX.o vào OBJ+=
                                   
 # Make Linux image 32G
+Download essential files here form Build folder(ask Mr. Truong if you don't have permission): https://drive.google.com/drive/folders/11iGXC7THoxfNUEgtJbBwwkZr2vlbAjyC?usp=drive_link
 ## 1. Build lại rootfs
+sudo apt install qemu-user-static
+cd ~/sdcard/
+wget https://raw.githubusercontent.com/psachin/bash_scripts/master/ch-mount.sh
+wget http://cdimage.ubuntu.com/ubuntu-base/releases/18.04/release/ubuntu-base-18.04.5-base-armhf.tar.gz
+chmod +x ch-mount.sh
+mkdir rootfs
+sudo tar xpf ubuntu-base-18.04.5-base-armhf.tar.gz -C rootfs/
+sudo cp /usr/bin/qemu-arm-static rootfs/usr/bin/
+```
+Mount proc, sys, dev, dev/pts to new fileystem
+```
+sudo ./ch-mount.sh -m ./rootfs/
+```
+Now,in chroot environment
+
+```
+# set DNS 8.8.8.8 or 114.114.114.114
+echo nameserver 8.8.8.8 > /etc/resolv.conf
+
+# install minimal packages required for X server and some core utils
+apt update
+apt-get install language-pack-en-base vim sudo ssh net-tools ethtool wireless-tools lxde xfce4-power-manager xinit xorg xserver-xorg-video-fbdev xserver-xorg-input-all network-manager ntpdate iputils-ping lightdm-gtk-greeter alsa-utils mplayer lightdm bash-completion lxtask htop python-gobject-2 python-gtk2 --no-install-recommends
+apt-get install synaptic
+
+apt install locales-all tzdata resolvconf  --no-install-recommends
+
+echo "a10soc">/etc/hostname
+echo "127.0.0.1 localhost" >> /etc/hosts
+echo "127.0.1.1 a10soc" >> /etc/hosts
+
+# Now add a user of your choice and include him in suitable groups
+adduser knat && addgroup knat adm && addgroup knat sudo && addgroup knat audio
+
+# set root without password
+sed -i 's/^root\:\*/root\:/g' /etc/shadow 
+
+# modify getty@.service
+sed -i 's/^ExecStart=-\/sbin\/agetty.*$/ExecStart=-\/sbin\/agetty --noclear %I $TERM/' /lib/systemd/system/getty@.service
+
+# set lightdm.conf
+echo -e "[SeatDefaults]\nautologin-user=root\nautologin-user-timeout=0" > /etc/lightdm/lightdm.conf
+
+# set rc.local 
+echo -e '#!/bin/sh -e\n#\n# rc.local\n#\n#In order to enable or disable this script just change the execution bits\n\nmodprobe altvipfb\nservice lightdm start\nmount -t vfat /dev/mmcblk0p1 /mnt\n\nexit 0' > /etc/rc.local
+
+chmod +x /etc/rc.local
+
+echo -e 'auto lo\niface lo inet loopback\n\nauto eth0\niface eth0 inet dhcp' > /etc/network/interfaces
+
+# update DNS automatically,Set ‘timezone’,Make X used by ‘anyuser’
+dpkg-reconfigure tzdata
+
+dpkg-reconfigure network-manager
+
+dpkg-reconfigure resolvconf
+
+dpkg-reconfigure x11-common
+
+# exit chroot environment
+exit
+```
+Now,umount proc, sys, dev, dev/pts 
+```
+sudo bash ./ch-mount.sh -u rootfs/
 ## 2. Sau đó copy các thành phần sau vào thư mục rootfs/root và nhớ cấp quyền sudo chmod -R 755 rootfs/root
 	a. opencl_arm
 	b. PipeCNN
 	c. opencv 3.4.15
-## 3. Sử dụng môi trường ảo để cài các package cần thiết follow thinkoco
-	https://github.com/thinkoco/c5soc_opencl/blob/master/documents/HowToBuildSDImage.md
-## 4. Cài đặt các package cần thiết cho opencv 3.4.15
-	https://qiita.com/element/items/9f22ad95f227b6421b9c#opencv%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB-1
-## 5. Install vncserver
-	https://www.youtube.com/watch?v=ohIBPCCFVyQ&t=1s
-# 6. Build sd card image
+# 3. Build sd card image
 	sudo ./make_sdimage_p3.py -f -P uboot_w_dtb-mkpimage.bin,num=3,format=raw,size=10M,type=A2 -P rootfs/*,num=2,format=ext3,size=14000M -P zImage,socfpga.rbf,socfpga_arria10_socdk_sdmmc.dtb,num=1,format=vfat,size=1000M -s 15200M -n sdimage_a10_cv2.img
+ #4. Boot image onto sd card 
+ For window, we use Rufus to boot.
