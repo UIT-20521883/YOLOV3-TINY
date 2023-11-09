@@ -138,6 +138,7 @@ sudo bash ./ch-mount.sh -u rootfs/
 # 3. Build sd card image
 ```
 	sudo ./make_sdimage_p3.py -f -P uboot_w_dtb-mkpimage.bin,num=3,format=raw,size=10M,type=A2 -P rootfs/*,num=2,format=ext3,size=14000M -P zImage,socfpga.rbf,socfpga_arria10_socdk_sdmmc.dtb,num=1,format=vfat,size=1000M -s 15200M -n sdimage_a10_cv2.img
- #4. Boot image onto sd card
 ```
+ #4. Boot image onto sd card
+
  For window, we use Rufus to boot.
