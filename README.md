@@ -152,12 +152,15 @@ sudo bash ./ch-mount.sh -u rootfs/
 + File gemm_fpga là file quan trọng kết nối giữa FPGA và darknet. Nó bao gồm một số hàm sẽ được bên trên gọi nhưng đã được setup với 2 kernel GEMM9W và GEMMfW được định nghĩa trong file .cl
 + Có thể thấy mấu chốt vấn đề nằm ở file gemm_fpga và gemm
 + Đọc kỹ để thấy nhiều vấn đề hơn (Nên sử dụng GPT để nhanh chóng hơn)
-	 	+ Trong quá trình đọc hãy bỏ qua nhưng #ifndef không liên quan chỉ nên tập trung vào #ifndef FPGA để tránh rối 
-   		+ Với file gemm.c nó thay vì sử dụng thuật toán gemm trên CPU hoặc GPU thì nó sẽ đọc gemm từ FPGA 
-     		+ Với file convolutional_layer.c thì đoạn có liên quan với 2 file dưới nhất là đoạn từ line 789 đến 823 của func forward_convolutional_layer_hf (vì ở trên darknet gọi thực thi hàm này để xử lý flow)
-       		+ Nên sử dụng VS code để đọc và tận dụng các ![image](https://github.com/UIT-20521883/YOLOV3-TINY/assets/90344672/9c154c04-f264-4dbd-9179-42b8d42b22cc) tính năng xem nơi define của các hàm để lần ra manh mối.
++ Với file gemm.c nó thay vì sử dụng thuật toán gemm trên CPU hoặc GPU thì nó sẽ đọc gemm từ FPGA 
++ Với file convolutional_layer.c thì đoạn có liên quan với 2 file dưới nhất là đoạn từ line 789 đến 823 của func forward_convolutional_layer_hf (vì ở trên darknet gọi thực thi hàm này để xử lý flow)
++ Nên sử dụng VS code để đọc và tận dụng các ![image](https://github.com/UIT-20521883/YOLOV3-TINY/assets/90344672/9c154c04-f264-4dbd-9179-42b8d42b22cc) tính năng xem nơi define của các hàm để lần ra manh mối.
 
 ### 2.Những điểm cần lưu ý
 Trong thư mục examples có một số điểm cần lưu ý:
- 		+ Có thể tác giả đã chỉnh sửa file darknet.c để ngắn gọn command khi sử dụng yolo ./darknet detect ... (như trong readme) mà không còn dài dòng như ở yolo gốc
-   		+ Đặc biệt quan tâm ở phần main của darnet.c , dòng 440  khi tác giả gọi 1 hàm test_detector để truyền vào khi ta dùng ```./darknet detect cfg/ttt5_224_160.cfg weight/ttt5_224_160_last.weights data/dog.jpg ``` 
++ Có thể tác giả đã chỉnh sửa file darknet.c để ngắn gọn command khi sử dụng yolo ./darknet detect ... (như trong readme) mà không còn dài dòng như ở yolo gốc
++ Đặc biệt quan tâm ở phần main của darnet.c , dòng 440  khi tác giả gọi 1 hàm test_detector để truyền vào khi ta dùng ```./darknet detect cfg/ttt5_224_160.cfg weight/ttt5_224_160_last.weights data/dog.jpg ```
++ Ta tìm nơi define hàm test_detector (F12 trong VS code) thì nó nằm trong detector.c. Nó làm nhiều cái nhưng quan trọng là ở dòng 680 là điểm mấu chốt. Nó đưa thông số vào hàm ```network_predict(net, X);``` . Nên nó sẽ xử lý trong này (Nên dọc qua test_detector nếu chưa hiểu)
++ Tiếp tục đi sâu với network_predict ta lại thấy cái duy nhất xử lý là ```forward_network(net);``` tiếp tục lần mò thì đến được file convolutional_layer.c
++ Trong convolutional_layer ta thấy ```l.forward = forward_convolutional_layer_hf;    //add for FPGA```
++ Vậy là ta có 1 cái nhìn cơ bản của flow này
