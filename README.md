@@ -148,10 +148,10 @@ sudo bash ./ch-mount.sh -u rootfs/
 # Đọc hiểu DARKNET
 ### 1.Về cấu trúc FPGA can thiệp
 Đầu tiên đến với các file nằm strong .src/ nó bao gồm các file cần để thực thi lệnh make. Tác giả đã modify một số thứ để FPGA có thể chạy được (chủ yếu liên quan đến conv, những cái khác chưa tìm hiểu nên không sure.), 3 file cần quan tâm đó là convolutional_layer.c gemm_fpga.c gemm.c (các file .h và .c là cần thiết, các file .cu hoặc có liên quan gpu thì don't care. Ta chỉ quan tâm các option được bật 1 ở file Makefile.self):
- 		+ File convolutional_layer và gemm là có sẵn trong darknet nhưng đã được chỉnh sửa để có thể hiểu aocx file
-   		+ File gemm_fpga là file quan trọng kết nối giữa FPGA và darknet. Nó bao gồm một số hàm sẽ được bên trên gọi nhưng đã được setup với 2 kernel GEMM9W và GEMMfW được định nghĩa trong file .cl
-     		+ Có thể thấy mấu chốt vấn đề nằm ở file gemm_fpga và gemm
-       		+ Đọc kỹ để thấy nhiều vấn đề hơn (Nên sử dụng GPT để nhanh chóng hơn)
++ File convolutional_layer và gemm là có sẵn trong darknet nhưng đã được chỉnh sửa để có thể hiểu aocx file
++ File gemm_fpga là file quan trọng kết nối giữa FPGA và darknet. Nó bao gồm một số hàm sẽ được bên trên gọi nhưng đã được setup với 2 kernel GEMM9W và GEMMfW được định nghĩa trong file .cl
++ Có thể thấy mấu chốt vấn đề nằm ở file gemm_fpga và gemm
++ Đọc kỹ để thấy nhiều vấn đề hơn (Nên sử dụng GPT để nhanh chóng hơn)
 	 	+ Trong quá trình đọc hãy bỏ qua nhưng #ifndef không liên quan chỉ nên tập trung vào #ifndef FPGA để tránh rối 
    		+ Với file gemm.c nó thay vì sử dụng thuật toán gemm trên CPU hoặc GPU thì nó sẽ đọc gemm từ FPGA 
      		+ Với file convolutional_layer.c thì đoạn có liên quan với 2 file dưới nhất là đoạn từ line 789 đến 823 của func forward_convolutional_layer_hf (vì ở trên darknet gọi thực thi hàm này để xử lý flow)
