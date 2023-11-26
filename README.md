@@ -142,4 +142,9 @@ sudo bash ./ch-mount.sh -u rootfs/
  #4. Boot image onto sd card
 
  For window, we use Rufus to boot.
-## Đọc hiểu DARKNET
+
+
+ 
+# Đọc hiểu DARKNET
+## Về cấu trúc FPGA can thiệp
+
