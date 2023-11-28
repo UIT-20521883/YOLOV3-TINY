@@ -1,3 +1,6 @@
+#on board
+ssh-keygen
+vi ~/.ssh/authorized_keys
 #authorized key
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHoWlUTN3pPGS+VsarhsHSiMpNtceugfj99KbsBTfyuVYxZ2TLYMQtHOJY6YPwdQ4AOu3PTOUbTrD1w5HHAdUdlzOxAA85muEHVOBRijvb8p12LY0G3tqXAN62BCeYj
 dVwgggog67fe89pvGujmU/HiatIK4EGHSZiinNiyRkx83UGQ7dq3CkCt6kPlsW9+z4CWaYDUwiVgYq2om6lda3P8glhfT2uhacEdZ4XI/umpkaA7uz0g4zZWKhMGpEQNvO6IK/AaBK+tS0E0sOwBw5hrRpU7vyIZbt4Ve
