@@ -1,0 +1,108 @@
+[root@a10soc ~/test]$
+ >>>>> ./image_predict.sh 
+classes = 80
+train   = /root/darknet_ttt/data/trainvalno5k.txt
+valid   = /root/darknet_ttt/data/1k.txt
+names   = data/coco.names
+backup  = weight
+eval    = coco
+
+layer     filters    size              input                output
+    0 conv     16  3 x 3 / 1   224 x 160 x   3   ->   224 x 160 x  16  0.031 (0.031)BFLOPs
+    1 max          2 x 2 / 2   224 x 160 x  16   ->   112 x  80 x  16
+    2 conv     32  3 x 3 / 1   112 x  80 x  16   ->   112 x  80 x  32  0.083 (0.114)BFLOPs
+    3 max          4 x 4 / 4   112 x  80 x  32   ->    28 x  20 x  32
+    4 conv    128  3 x 3 / 1    28 x  20 x  32   ->    28 x  20 x 128  0.041 (0.155)BFLOPs
+    5 max          4 x 4 / 4    28 x  20 x 128   ->     7 x   5 x 128
+    6 conv    512  3 x 3 / 1     7 x   5 x 128   ->     7 x   5 x 512  0.041 (0.196)BFLOPs
+    7 conv    512  3 x 3 / 1     7 x   5 x 512   ->     7 x   5 x 512  0.165 (0.361)BFLOPs
+    8 conv    256  1 x 1 / 1     7 x   5 x 512   ->     7 x   5 x 256  0.009 (0.370)BFLOPs
+    9 conv    512  3 x 3 / 1     7 x   5 x 256   ->     7 x   5 x 512  0.083 (0.453)BFLOPs
+   10 conv    425  1 x 1 / 1     7 x   5 x 512   ->     7 x   5 x 425  0.015 (0.468)BFLOPs
+   11 region
+mask_scale: Using default '1.000000'
+Loading weights from weight/ttt5_224_160_last.weights...64bit OS trained major/minor/revision = 0/2/5 sizeof(size_t)=4
+Done!
+Loaded in 0.082956 seconds.
+Resized in 0.058512 seconds.
+ OPENEXR = 1 
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+GEMM FPGA 38
+1 platforms
+	No.0-"Intel(R) FPGA SDK for OpenCL(TM)"
+	1 devices
+		No.0-"a10soc : Arria 10 SoC Development Kit (acl_a10soc0)" : LOCAL_MEM_SIZE=16384
+    Setup   InLayer    sub-Total TYPE Idx
+reading binary source_size=83886080
+Initial OpenCL in 4.096338 seconds.
+ 757 
+ 776 
+This is convolutional layer:  4.156640     4.156638 0000 000
+This is not convolutional layer:  0.000000  0.015324     4.171961 0003 001
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 776 
+This is convolutional layer:  0.054388     4.226347 0000 002
+This is not convolutional layer:  0.000000  0.004712     4.231058 0003 003
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 794 
+ 0.007492  gemm hf 
+GEMM 560 
+GEMM 577
+This is convolutional layer:  0.066223     4.297280 0000 004
+This is not convolutional layer:  0.000000  0.002446     4.299726 0003 005
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 794 
+ 0.002123  gemm hf 
+GEMM 560 
+GEMM 577
+This is convolutional layer:  0.071786     4.371511 0000 006
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 776 
+This is convolutional layer:  0.065855     4.437365 0000 007
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 794 
+ 0.000894  gemm hf 
+GEMM 560 
+GEMM 577
+This is convolutional layer:  0.010010     4.447374 0000 008
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 794 
+ 0.006158  gemm hf 
+GEMM 560 
+GEMM 577
+This is convolutional layer:  0.145426     4.592798 0000 009
+ forward_convolutional_layer_hf start 
+CONV LAYER 650
+Initial OpenCL in 0.000001 seconds.
+ 757 
+ 794 
+ 0.001010  gemm hf 
+GEMM 560 
+GEMM 577
+This is convolutional layer:  0.017065     4.609862 0000 010
+This is not convolutional layer:  0.000000  0.001372     4.611233 0022 011
+data/dog.jpg: Predicted in 4.697981 seconds.
+car: 33%
+dog: 27%
+bicycle: 83%
+
+
