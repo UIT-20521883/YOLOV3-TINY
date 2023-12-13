@@ -135,7 +135,28 @@ else
 ## 6. cblas_sgemm
 
 ## 7.gemm_hf
+    m = out_h*out_w; // height*width of output
+    k = l.size*l.size*l.c; // (size of filter)*(size of filter)*(channels of input)
+    n = l.n; // channels of input
+   ```
+    
+gemm_hf(     0,      1,      1, 
+             m,      n,      k,  1, 
+             a_hf, k, 
+             b_hf, k, 1, 
+             c_hf, m); 
+             
+gemm_hf(int TA, int TB, int TC,
+        int M, int N, int K, float ALPHA, 
+        half *A, int lda, 
+        half *B, int ldb,
+        float BETA,
+        half *C, int ldc);
+  
+   ```
+
 gemm_ntt_fpga_half
+
 
 
 
