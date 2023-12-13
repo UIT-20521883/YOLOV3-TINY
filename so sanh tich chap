@@ -1,0 +1,49 @@
+so sanh toc do nhan tich chap 
+// 0 2 7 cblas 
+Layer       Type           Time             Total time 
+Openblas  in 0.013024 seconds.
+000      Convolution       0.052196             0.052195   
+001      Maxpool           0.014583             0.066776   
+Openblas  in 0.029827 seconds.
+002      Convolution       0.054630             0.121405   
+003      Maxpool           0.004668             0.126072   
+fpga in 0.057204 seconds.
+004      Convolution       0.067605             0.193675   
+005      Maxpool           0.001294             0.194968   
+fpga in 0.071429 seconds.
+006      Convolution       0.074324             0.269291   
+Openblas  in 0.061664 seconds.
+007      Convolution       0.065873             0.335163   
+fpga in 0.009355 seconds.
+008      Convolution       0.010646             0.345809   
+fpga in 0.139063 seconds.
+009      Convolution       0.145401             0.491209   
+fpga in 0.015358 seconds.
+010      Convolution       0.016934             0.508143   
+011      Region            0.001412             0.509554   
+data/dog.jpg: Predicted in 0.596496 seconds.
+
+// full cblas
+Layer       Type           Time             Total time 
+Openblas  in 0.013396 seconds.
+000      Convolution       0.052697             0.052696   
+001      Maxpool           0.014642             0.067336   
+Openblas  in 0.030057 seconds.
+002      Convolution       0.054839             0.122174   
+003      Maxpool           0.004668             0.126840   
+Openblas  in 0.012874 seconds.
+004      Convolution       0.017726             0.144566   
+005      Maxpool           0.001308             0.145873   
+Openblas  in 0.015664 seconds.
+006      Convolution       0.017253             0.163125   
+Openblas  in 0.062912 seconds.
+007      Convolution       0.066099             0.229223   
+Openblas  in 0.003480 seconds.
+008      Convolution       0.004237             0.233459   
+Openblas  in 0.030952 seconds.
+009      Convolution       0.033031             0.266490   
+Openblas  in 0.005806 seconds.
+010      Convolution       0.006791             0.273280   
+011      Region            0.001434             0.274713   
+data/dog.jpg: Predicted in 0.361836 seconds.
+

@@ -1,0 +1,50 @@
+// full fpga
+Layer       Type           Time             Total time 
+000      Convolution       0.191171             0.191169   
+001      Maxpool           0.014706             0.205873   
+002      Convolution       0.246113             0.451984   
+003      Maxpool           0.004632             0.456615   
+004      Convolution       0.063742             0.520356   
+005      Maxpool           0.001349             0.521705   
+006      Convolution       0.068927             0.590630   
+007      Convolution       0.283212             0.873841   
+008      Convolution       0.010433             0.884273   
+009      Convolution       0.154093             1.038365   
+010      Convolution       0.014884             1.053247   
+011      Region            0.001369             1.054615  
+
+// 0 2 7 OpenBLAS
+
+Layer       Type           Time             Total time 
+000      Convolution       0.052716             0.052714   
+001      Maxpool           0.014621             0.067334   
+002      Convolution       0.054631             0.121964   
+003      Maxpool           0.004667             0.126630   
+004      Convolution       0.066476             0.193105   
+005      Maxpool           0.001322             0.194426   
+006      Convolution       0.072972             0.267396   
+007      Convolution       0.066062             0.333457   
+008      Convolution       0.010336             0.343792   
+009      Convolution       0.147287             0.491078   
+010      Convolution       0.017042             0.508119   
+011      Region            0.001368             0.509487  
+
+==> ton thoi gian conv: layer 0 2 7. 
+
+// all OpenBLAS
+Layer       Type           Time             Total time 
+000      Convolution       0.052214             0.052212   
+001      Maxpool           0.014803             0.067014   
+002      Convolution       0.054353             0.121365   
+003      Maxpool           0.004660             0.126024   
+004      Convolution       0.017699             0.143722   
+005      Maxpool           0.001316             0.145037   
+006      Convolution       0.017059             0.162096   
+007      Convolution       0.064735             0.226829   
+008      Convolution       0.004137             0.230965   
+009      Convolution       0.032902             0.263865   
+010      Convolution       0.006699             0.270564   
+011      Region            0.001397             0.271960   
+
+
+
