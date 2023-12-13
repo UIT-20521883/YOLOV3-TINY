@@ -1,7 +1,7 @@
 # DARKNET FLOW WORK
 Sumary of darknet flow work.
-           time=what_time_is_it_now();
-            
+         
+            time=what_time_is_it_now();
             printf("Loaded in %f seconds.\n",  what_time_is_it_now()-time);
 ## 1. darknet.c
 Khi chúng ta dùng câu lệnh: ./darknet detect cfg/ttt5_224_160.cfg weight/ttt5_224_160_last.weights data/dog.jpg. Thì chương trình sẽ bắt đầu khỏi chạy từ hàm main của
