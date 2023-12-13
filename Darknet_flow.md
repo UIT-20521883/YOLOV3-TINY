@@ -1,5 +1,8 @@
 # DARKNET FLOW WORK
 Sumary of darknet flow work.
+           time=what_time_is_it_now();
+            
+            printf("Loaded in %f seconds.\n",  what_time_is_it_now()-time);
 ## 1. darknet.c
 Khi chúng ta dùng câu lệnh: ./darknet detect cfg/ttt5_224_160.cfg weight/ttt5_224_160_last.weights data/dog.jpg. Thì chương trình sẽ bắt đầu khỏi chạy từ hàm main của
 file darknet.c
@@ -52,14 +55,87 @@ Hàm này cơ bản chỉ truyền net vào forward_network để tính toán tr
 }
 ```
 ## 3. forward_network
+Đầu tiên, hàm sẽ chuyển đổi weights và bias từ float về dạng half
+```
+#ifdef OPENEXR
+    // printf(" OPENEXR = 1 \n");
+    for(i = 0; i < net.n; ++i){
+        layer l = net.layers[i];
+        if(l.type != CONVOLUTIONAL) continue;
+        float2half(l.c*l.n*l.size*l.size, l.weights,       1, l.weights_hf,       1);
+        float2half(l.batch*l.outputs,     l.biased_output, 1, l.biased_output_hf, 1);
+    }
+#endif
+```
+Tiếp theo, ta dùng vòng lặp for để duyệt qua hết tất cả các lớp trong mô hình mang.
+```
+for(i = 0; i < net.n; ++i){
+    net.index = i;
+    layer l = net.layers[i];
+    // ...
+    l.forward(l, net);
+    // ...
+}
 
+```
+Thiết lập net.index bằng chỉ số của lớp hiện tại để sử dụng trong forward pass của lớp đó.
+Gọi hàm l.forward(l, net) để thực hiện chạy tiến trình qua lớp hiện tại. 
 ## 4. forward_convolutional_layer_hf
+Chuẩn bị kích thước đầu vào cho phép nhân ma trận gemm, cụ thể là im2row:
+```
+    // with im2row version for gemm_ntt
+    m = out_h*out_w; // height*width of output
+    k = l.size*l.size*l.c; // (size of filter)*(size of filter)*(channels of input)
+    n = l.n; // channels of input
 
+```
+Nếu là layer thứ 0,2 và 7 sẽ thực hiện theo flow sau:
+```
+if(1 && (net.index==0 || net.index==2 || net.index==7))
+        {
+            float *a = net.workspace;
+            float *b = l.weights;
+            float *c = l.output;
+            TensorDim in_dim  ={ 1, l.c, l.h, l.w };
+            TensorDim filt_dim={ l.out_c, l.c, l.size, l.size };
+            CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
+            //printf("%9.6f ", what_time_is_it_now()-time);
+#ifdef CBLAS
+           //printf(" 776 \n");
+            cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m); //OK
+#endif
+
+```
+Các layer khác sẽ thực hiện theo flow sau:
+```
+else 
+        {          // gemm_ntt_jikK.cl
+       // printf(" 794 \n");
+            float *a = net.workspace;
+            //float *b = l.weights;
+            float *c = l.output;
+            float *A = (float*)malloc(sizeof(float)*(l.out_w*l.out_h)*(l.size*l.size*l.c));
+            half *a_hf = net.workspace_hf;
+            half *b_hf = l.weights_hf;
+            half *c_hf = l.output_hf;
+            TensorDim in_dim  ={ 1, l.c, l.h, l.w };
+            TensorDim filt_dim={ l.out_c, l.c, l.size, l.size };
+            CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
+            col2row_cblas(l.c*l.size*l.size, out_w*out_h, a, A);
+            float2half(m*k, A, 1, a_hf, 1);
+            //printf("%9.6f ", what_time_is_it_now()-time);
+            gemm_hf(0,1,1, m, n, k, 1, a_hf, k, b_hf, k, 1, c_hf, m);     //OK for instead of FPGA Model
+            half2float(m*n, c_hf, 1, c, 1);
+            free(A);
+        }
+
+```
 ## 5. CppConvnetIm2Row() 
 
 ## 6. cblas_sgemm
 
 ## 7.gemm_hf
 gemm_ntt_fpga_half
+
 
 
