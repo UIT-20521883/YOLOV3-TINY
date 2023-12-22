@@ -152,6 +152,16 @@ gemm_hf(int TA, int TB, int TC,
         half *B, int ldb,
         float BETA,
         half *C, int ldc);
+ gemm_ntt_fpga_half(M, N, K, ALPHA,A,lda, B, ldb,C,ldc);
+void gemm_ntt_fpga_half(int M, int N, int K, float ALPHA, 
+        half *A, int lda, 
+        half *B, int ldb,
+        half *C, int ldc)
+    if(!(K%27))
+        kernel = kernels[GEMM9W];
+    else
+        kernel = kernels[GEMMfW];
+
   
    ```
 
