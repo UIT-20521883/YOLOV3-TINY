@@ -110,22 +110,32 @@ Các layer khác sẽ thực hiện theo flow sau:
 ```
 else 
         {          // gemm_ntt_jikK.cl
-       // printf(" 794 \n");
+                     /* 1. KHOI TAO BIEN VA CAP PHAT BO NHO */
+            // Cấp phát con trỏ a đến vùng nhớ workspace 
             float *a = net.workspace;
-            //float *b = l.weights;
+            // cấp phát con trỏ c đến vùng nhớ output
             float *c = l.output;
+            // Cấp phát bộ nhớ động cho mảng A 
             float *A = (float*)malloc(sizeof(float)*(l.out_w*l.out_h)*(l.size*l.size*l.c));
+            //  c_hf = a_hf nhân tích chập b_hf 
             half *a_hf = net.workspace_hf;
             half *b_hf = l.weights_hf;
             half *c_hf = l.output_hf;
+                   /* 2. Chuẩn bị dữ liệu */
+            // Khai báo các cấu trúc TensorDim để mô tả kích thước của dữ liệu đầu vào và bộ lọc. 
             TensorDim in_dim  ={ 1, l.c, l.h, l.w };
             TensorDim filt_dim={ l.out_c, l.c, l.size, l.size };
+            // im2row input vào mảng a 
             CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
+            // Chuyển đổi mảng a thành dạng ma trận theo cột lưu vào mảng A
             col2row_cblas(l.c*l.size*l.size, out_w*out_h, a, A);
+           // Chuyển dữ liệu từ kiểu float từ mảng A sang half-precision a_hf 
             float2half(m*k, A, 1, a_hf, 1);
-            //printf("%9.6f ", what_time_is_it_now()-time);
+                 /* 3. Thuc hien phep nhan ma tran */
             gemm_hf(0,1,1, m, n, k, 1, a_hf, k, b_hf, k, 1, c_hf, m);     //OK for instead of FPGA Model
+                 /* 4. Đổi kết quả từ half-precision về float */
             half2float(m*n, c_hf, 1, c, 1);
+                /* 5. Giai phóng bộ nhớ */
             free(A);
         }
 
