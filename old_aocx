@@ -1,0 +1,74 @@
+[root@a10soc ~/test]$
+ >>>>> ./image_predict.sh 
+classes = 80
+train   = /root/darknet_ttt/data/trainvalno5k.txt
+valid   = /root/darknet_ttt/data/1k.txt
+names   = data/coco.names
+backup  = weight
+eval    = coco
+
+layer     filters    size              input                output
+    0 conv     16  3 x 3 / 1   224 x 160 x   3   ->   224 x 160 x  16  0.031 (0.031)BFLOPs
+    1 max          2 x 2 / 2   224 x 160 x  16   ->   112 x  80 x  16
+    2 conv     32  3 x 3 / 1   112 x  80 x  16   ->   112 x  80 x  32  0.083 (0.114)BFLOPs
+    3 max          4 x 4 / 4   112 x  80 x  32   ->    28 x  20 x  32
+    4 conv    128  3 x 3 / 1    28 x  20 x  32   ->    28 x  20 x 128  0.041 (0.155)BFLOPs
+    5 max          4 x 4 / 4    28 x  20 x 128   ->     7 x   5 x 128
+    6 conv    512  3 x 3 / 1     7 x   5 x 128   ->     7 x   5 x 512  0.041 (0.196)BFLOPs
+    7 conv    512  3 x 3 / 1     7 x   5 x 512   ->     7 x   5 x 512  0.165 (0.361)BFLOPs
+    8 conv    256  1 x 1 / 1     7 x   5 x 512   ->     7 x   5 x 256  0.009 (0.370)BFLOPs
+    9 conv    512  3 x 3 / 1     7 x   5 x 256   ->     7 x   5 x 512  0.083 (0.453)BFLOPs
+   10 conv    425  1 x 1 / 1     7 x   5 x 512   ->     7 x   5 x 425  0.015 (0.468)BFLOPs
+   11 region
+mask_scale: Using default '1.000000'
+Loading weights from weight/ttt5_224_160_last.weights...64bit OS trained major/minor/revision = 0/2/5 sizeof(size_t)=4
+Done!
+1 platforms
+	No.0-"Intel(R) FPGA SDK for OpenCL(TM)"
+	1 devices
+		No.0-"a10soc : Arria 10 SoC Development Kit (acl_a10soc0)" : LOCAL_MEM_SIZE=16384
+    Setup   InLayer    sub-Total TYPE Idx
+reading binary source_size=83886080
+Loaded in 0.080536 seconds.
+Resized in 0.058666 seconds.
+Layer       Type           Time             Total time 
+Openblas  in 0.012995 seconds.
+000      Convolution       0.051895             0.051894   
+001      Maxpool           0.014637             0.066529   
+Openblas  in 0.030499 seconds.
+002      Convolution       0.054855             0.121383   
+003      Maxpool           0.004640             0.126022   
+GEMMfW
+ntt fpga in 0.054712 seconds.
+Time for gemm half in 0.056475 seconds.
+fpga in 0.056484 seconds.
+004      Convolution       0.067971             0.193992   
+005      Maxpool           0.001347             0.195338   
+GEMMfW
+ntt fpga in 0.076099 seconds.
+Time for gemm half in 0.076593 seconds.
+fpga in 0.076602 seconds.
+006      Convolution       0.079455             0.274792   
+Openblas  in 0.063958 seconds.
+007      Convolution       0.067104             0.341895   
+GEMMfW
+ntt fpga in 0.008982 seconds.
+Time for gemm half in 0.009237 seconds.
+fpga in 0.009246 seconds.
+008      Convolution       0.010536             0.352430   
+GEMMfW
+ntt fpga in 0.142406 seconds.
+Time for gemm half in 0.142895 seconds.
+fpga in 0.142905 seconds.
+009      Convolution       0.148358             0.500787   
+GEMMfW
+ntt fpga in 0.014142 seconds.
+Time for gemm half in 0.014543 seconds.
+fpga in 0.014553 seconds.
+010      Convolution       0.016128             0.516914   
+011      Region            0.001367             0.518281   
+data/dog.jpg: Predicted in 0.607059 seconds.
+car: 33%
+dog: 27%
+bicycle: 83%
+
