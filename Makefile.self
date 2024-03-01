@@ -2,7 +2,7 @@
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/opt/OpenBLAS/lib/pkgconfig
 GPU=0
 CUDNN=0
-OPENCV?=0
+OPENCV?=1
 OPENEXR=0
 DEBUG?=0
 FPGA?=1
