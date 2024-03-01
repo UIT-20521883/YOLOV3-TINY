@@ -1,0 +1,56 @@
+Loaded in 0.090832 seconds.
+Resized in 0.058423 seconds.
+Layer       Type           Time             Total time 
+Openblas  in 0.050095 seconds.
+000      Convolution          88.80                88.79   
+001      Maxpool              14.60               103.39   
+Openblas  in 0.030472 seconds.
+002      Convolution          53.96               157.35   
+003      Maxpool               4.64               162.00   
+fpga in 0.057382 seconds.
+004      Convolution          67.87               229.87   
+005      Maxpool               1.30               231.16   
+fpga in 0.068681 seconds.
+006      Convolution          71.59               302.76   
+Openblas  in 0.064234 seconds.
+007      Convolution          67.38               370.14   
+fpga in 0.009263 seconds.
+008      Convolution          10.57               380.71   
+fpga in 0.139451 seconds.
+009      Convolution         146.90               527.61   
+fpga in 0.020965 seconds.
+010      Convolution          22.58               550.19   
+011      Region                2.45               552.64   
+data/dog.jpg: Predicted in 0.640592 seconds.
+car: 33%
+dog: 27%
+bicycle: 83%
+
+///////////// 2nd RUN //////////////////
+Loaded in 0.081126 seconds.
+Resized in 0.058457 seconds.
+Layer       Type           Time             Total time 
+Openblas  in 0.013136 seconds.
+000      Convolution          51.74                51.74   
+001      Maxpool              14.62                66.36   
+Openblas  in 0.033442 seconds.
+002      Convolution          57.30               123.65   
+003      Maxpool               4.66               128.31   
+fpga in 0.053755 seconds.
+004      Convolution          65.19               193.50   
+005      Maxpool               1.31               194.81   
+fpga in 0.066669 seconds.
+006      Convolution          69.58               264.39   
+Openblas  in 0.063098 seconds.
+007      Convolution          66.28               330.66   
+fpga in 0.008898 seconds.
+008      Convolution          11.77               342.44   
+fpga in 0.135627 seconds.
+009      Convolution         141.95               484.39   
+fpga in 0.018211 seconds.
+010      Convolution          19.81               504.20   
+011      Region                1.38               505.58   
+data/dog.jpg: Predicted in 0.593365 seconds.
+car: 33%
+dog: 27%
+bicycle: 83%
