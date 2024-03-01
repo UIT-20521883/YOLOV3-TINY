@@ -1,0 +1,3 @@
+mv -f gemm_fpga.aocx gemm_fpga_old.aocx
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=$v' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=$v" -O gemm_fpga.aocx && rm -rf /tmp/cookies.txt
+
