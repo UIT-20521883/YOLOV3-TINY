@@ -778,7 +778,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             strncpy(input, filename, 256);
             // Thoi gian load anh
             time = what_time_is_it_now();
-            image im = load_image_color(input, net.w, net.h);
+            image im = load_image_color(input, 0, 0);
             printf("Loaded in %f seconds.\n", what_time_is_it_now() - time);
 
             // Thoi gian resized anh
