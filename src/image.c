@@ -1367,7 +1367,7 @@ void test_resize(char *filename)
 }
 
 
-image load_image_stb(char *filename, int channels)
+image loadload_image_stb(char *filename, int channels)
 {
     //printf("Loaded by load_image_stb ");
     int w, h, c;
