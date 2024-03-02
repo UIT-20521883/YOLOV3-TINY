@@ -835,13 +835,13 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             free_image(sized);
             free(boxes);
             free_ptrs((void **)probs, l.w * l.h * l.n);
-            int flag;
-            printf("Do you want to continue? \n 1=Yes - 0=No");
-            scanf("%d", &flag);
-            if (flag)
+            int flag = 0;
+            printf("Do you want to continue? \n Yes/No?\n");
+            scanf("%s", &flag);
+            if (flag == 'y' || flag == 'yes')
                 goto event;
             else
-                break;
+                return;
         }
         else
         {
