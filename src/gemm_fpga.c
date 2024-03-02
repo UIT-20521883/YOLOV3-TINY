@@ -254,12 +254,12 @@ void gemm_ntt_fpga(int M, int N, int K, float ALPHA,
 
     if ((K % 512))
     {
-        prinf("Kernel 1\n");
+        printf("Kernel 1\n");
         kernel = kernels[GEMM9W];
     }
     else
     {
-        prinf("Kernel 2\n");
+        printf("Kernel 2\n");
         kernel = kernels[GEMMfW];
     }
 
