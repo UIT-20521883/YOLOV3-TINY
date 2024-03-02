@@ -833,11 +833,11 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             free_image(sized);
             free(boxes);
             free_ptrs((void **)probs, l.w * l.h * l.n);
-            //            if (filename)
-            //                break;
-            //        }
-            //        else
-            //        {
+            if (filename)
+                break;
+        }
+        else
+        {
             DIR *d;
             struct dirent *dir;
             float predict_time_s;
