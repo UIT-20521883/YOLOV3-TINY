@@ -780,7 +780,6 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
         col2row_cblas(l.c * l.size * l.size, out_w * out_h, a, A);
         float2half(m * k, A, 1, a_hf, 1);
-        // printf("%9.6f ", what_time_is_it_now()-time);
         double time1 = what_time_is_it_now();
         gemm_hf(0, 1, 1, m, n, k, 1, a_hf, k, b_hf, k, 1, c_hf, m); // OK for instead of FPGA Model
         printf("FPGA in %f ms.\n", (what_time_is_it_now() - time1) * 1000);
