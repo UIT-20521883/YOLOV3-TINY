@@ -773,9 +773,10 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
 
     while (1)
     {
-    even:
+
         if (filename)
         {
+        event:
             strncpy(input, filename, 256);
             // Thoi gian load anh
             time = what_time_is_it_now();
@@ -819,14 +820,14 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             {
                 save_image(im, "predictions");
 #ifdef OPENCV
-                cvNamedWindow("predictions", CV_WINDOW_NORMAL);
-                if (fullscreen)
-                {
-                    cvSetWindowProperty("predictions", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-                }
-                show_image(im, "predictions");
-                cvWaitKey(0);
-                cvDestroyAllWindows();
+                // cvNamedWindow("predictions", CV_WINDOW_NORMAL);
+                // if (fullscreen)
+                // {
+                //     cvSetWindowProperty("predictions", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+                // }
+                // show_image(im, "predictions");
+                // cvWaitKey(0);
+                // cvDestroyAllWindows();
 #endif
             }
 
@@ -835,7 +836,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             free(boxes);
             free_ptrs((void **)probs, l.w * l.h * l.n);
             int flag;
-            prinf("Do you want to continue? \n 1=Yes - 0=No");
+            printf("Do you want to continue? \n 1=Yes - 0=No");
             scanf("%d", &flag);
             if (flag)
                 goto event;
