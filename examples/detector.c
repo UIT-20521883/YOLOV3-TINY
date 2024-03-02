@@ -773,6 +773,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
 
     while (1)
     {
+    even:
         if (filename)
         {
             strncpy(input, filename, 256);
@@ -833,7 +834,12 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             free_image(sized);
             free(boxes);
             free_ptrs((void **)probs, l.w * l.h * l.n);
-            if (filename)
+            int flag;
+            prinf("Do you want to continue? \n 1=Yes - 0=No");
+            scanf("%d", &flag);
+            if (flag)
+                goto event;
+            else
                 break;
         }
         else
