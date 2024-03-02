@@ -191,10 +191,16 @@ void gemm_ntt_fpga_half(int M, int N, int K, float ALPHA,
                              M * N * sizeof(cl_half), C, &ret);
     checkErr(ret, "clCreateBuffer-2");
 
-    if (!(K % 27))
+    if ((K % 512))
+    {
+        printf("Kernel 1\n");
         kernel = kernels[GEMM9W];
+    }
     else
+    {
+        printf("Kernel 2\n");
         kernel = kernels[GEMMfW];
+    }
 
     /* Set OpenCL Kernel Parameters */
     ret = clSetKernelArg(kernel, 0, sizeof(cl_int), &M);
