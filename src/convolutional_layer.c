@@ -757,7 +757,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
         printf("CppConvnetIm2Row  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 #ifdef CBLAS
-        double time2 = what_time_is_it_now();
+        time2 = what_time_is_it_now();
         cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m); // OK
         printf("Openblas  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 
