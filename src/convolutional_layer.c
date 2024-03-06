@@ -760,6 +760,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         time2 = what_time_is_it_now();
         cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m); // OK
         printf("Openblas  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
+        time2 = what_time_is_it_now();
 
 #endif
     }
@@ -792,6 +793,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
     }
 
     activate_array(l.output, m * n * l.batch, l.activation);
+    printf("activate_array in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 }
 
 void forward_convolutional_layer_foldBN(convolutional_layer l, network net)
