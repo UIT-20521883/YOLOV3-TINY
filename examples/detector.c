@@ -781,11 +781,12 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             // Thoi gian load anh
             time = what_time_is_it_now();
             image im = load_image_color(input, 0, 0);
+            image sized = im;
             printf("Loaded in %f ms.\n", (what_time_is_it_now() - time) * 1000);
 
             // Thoi gian resized anh
             time = what_time_is_it_now();
-            image sized = letterbox_image(im, net.w, net.h);
+            // image sized = letterbox_image(im, net.w, net.h);
             printf("Resized in %f ms.\n", (what_time_is_it_now() - time) * 1000);
 
             int dd = sized.h * sized.w * sized.c;

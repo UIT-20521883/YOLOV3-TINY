@@ -748,7 +748,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 #ifdef OPENEXR
     // printf(" 757 \n");
     // if(net.index==0 || net.index==2){
-    if (1 && (net.index == 0 || net.index == 0 || net.index == 0))
+    if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
     {
         float *a = net.workspace;
         float *b = l.weights;
