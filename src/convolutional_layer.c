@@ -748,7 +748,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 #ifdef OPENEXR
     if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
     {
-        double time2 = what_time_is_it_now();
+        time2 = what_time_is_it_now();
         float *a = net.workspace;
         float *b = l.weights;
         float *c = l.output;
@@ -760,7 +760,6 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         time2 = what_time_is_it_now();
         cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m); // OK
         printf("Openblas  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
-        time2 = what_time_is_it_now();
 
 #endif
     }
@@ -785,7 +784,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         free(A);
     }
 #endif
-
+    time2 = what_time_is_it_now();
     if (!l.batch_normalize)
     {
         // add_bias(l.output, l.biases, l.batch, l.n, out_h*out_w);
