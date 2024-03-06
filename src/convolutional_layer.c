@@ -727,9 +727,9 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
     double time2;
     // copy_cpu(l.outputs*l.batch, l.biased_output, 1, l.output, 1);
 #ifdef CBLAS
-    time2 = what_time_is_it_now();
+    // time2 = what_time_is_it_now();
     cblas_scopy(l.outputs * l.batch, l.biased_output, 1, l.output, 1);
-    printf("cblas_scopy  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
+    // printf("cblas_scopy  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 #endif
 #ifdef OPENEXR
     for (i = 0; i < l.outputs * l.batch; i++)
@@ -755,7 +755,9 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         float *b = l.weights;
         float *c = l.output;
         TensorDim in_dim = {1, l.c, l.h, l.w};
+        printf("in_dim %d %d %d %d.\n", 1, l.c, l.h, l.w);
         TensorDim filt_dim = {l.out_c, l.c, l.size, l.size};
+        printf("filt_dim %d %d %d %d.\n", l.out_c, l.c, l.size, l.size);
         CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
         // printf("CppConvnetIm2Row  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 #ifdef CBLAS
