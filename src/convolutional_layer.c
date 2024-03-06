@@ -728,6 +728,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
     // copy_cpu(l.outputs*l.batch, l.biased_output, 1, l.output, 1);
 #ifdef CBLAS
     cblas_scopy(l.outputs * l.batch, l.biased_output, 1, l.output, 1);
+    printf("cblas_scopy\n");
 #endif
 #ifdef OPENEXR
     for (i = 0; i < l.outputs * l.batch; i++)
@@ -748,14 +749,14 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 #ifdef OPENEXR
     if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
     {
-        time2 = what_time_is_it_now();
+        // time2 = what_time_is_it_now();
         float *a = net.workspace;
         float *b = l.weights;
         float *c = l.output;
         TensorDim in_dim = {1, l.c, l.h, l.w};
         TensorDim filt_dim = {l.out_c, l.c, l.size, l.size};
         CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
-        printf("CppConvnetIm2Row  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
+        // printf("CppConvnetIm2Row  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 #ifdef CBLAS
         time2 = what_time_is_it_now();
         cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m); // OK
@@ -784,7 +785,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         free(A);
     }
 #endif
-    time2 = what_time_is_it_now();
+    // time2 = what_time_is_it_now();
     if (!l.batch_normalize)
     {
         // add_bias(l.output, l.biases, l.batch, l.n, out_h*out_w);
@@ -792,7 +793,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
     }
 
     activate_array(l.output, m * n * l.batch, l.activation);
-    printf("activate_array in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
+    // printf("activate_array in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 }
 
 void forward_convolutional_layer_foldBN(convolutional_layer l, network net)
