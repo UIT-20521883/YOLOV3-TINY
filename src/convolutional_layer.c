@@ -727,8 +727,9 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
     double time2;
     // copy_cpu(l.outputs*l.batch, l.biased_output, 1, l.output, 1);
 #ifdef CBLAS
+    time2 = what_time_is_it_now();
     cblas_scopy(l.outputs * l.batch, l.biased_output, 1, l.output, 1);
-    printf("cblas_scopy\n");
+    printf("cblas_scopy  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 #endif
 #ifdef OPENEXR
     for (i = 0; i < l.outputs * l.batch; i++)
