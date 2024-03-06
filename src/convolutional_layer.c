@@ -724,7 +724,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 
 #endif
     double time = what_time_is_it_now();
-
+    double time2;
     // copy_cpu(l.outputs*l.batch, l.biased_output, 1, l.output, 1);
 #ifdef CBLAS
     cblas_scopy(l.outputs * l.batch, l.biased_output, 1, l.output, 1);
