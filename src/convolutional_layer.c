@@ -748,12 +748,12 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 #ifdef OPENEXR
     if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
     {
+        double time2 = what_time_is_it_now();
         float *a = net.workspace;
         float *b = l.weights;
         float *c = l.output;
         TensorDim in_dim = {1, l.c, l.h, l.w};
         TensorDim filt_dim = {l.out_c, l.c, l.size, l.size};
-        double time2 = what_time_is_it_now();
         CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
         printf("CppConvnetIm2Row  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 #ifdef CBLAS
