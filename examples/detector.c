@@ -787,7 +787,6 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             // Thoi gian resized anh
             time = what_time_is_it_now();
             // image sized = letterbox_image(im, net.w, net.h);
-            printf("Resized in %f ms.\n", (what_time_is_it_now() - time) * 1000);
 
             int dd = sized.h * sized.w * sized.c;
             layer l = net.layers[net.n - 1];
@@ -806,9 +805,11 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             }
 
             float *X = sized.data;
+            printf("Total load in %f ms.\n", (what_time_is_it_now() - time) * 1000);
             time = what_time_is_it_now();
             network_predict(net, X);
             printf("%s: Predicted in %f ms.\n", input, (what_time_is_it_now() - time) * 1000);
+            time = what_time_is_it_now();
             get_region_boxes(l, im.w, im.h, net.w, net.h, thresh, probs, boxes, masks, 0, 0, hier_thresh, 1);
             if (nms)
                 do_nms_obj(boxes, probs, l.w * l.h * l.n, l.classes, nms);
@@ -829,6 +830,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
                 show_image(im, "predictions");
                 cvWaitKey(0);
                 cvDestroyAllWindows();
+                printf("END in %f ms.\n", (what_time_is_it_now() - time) * 1000);
 #endif
             }
 
