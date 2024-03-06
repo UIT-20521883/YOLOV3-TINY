@@ -817,7 +817,6 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             if (outfile)
             {
                 save_image(im, outfile);
-                printf("END in %f ms.\n", (what_time_is_it_now() - time) * 1000);
             }
             else
             {
@@ -828,6 +827,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
                 {
                     cvSetWindowProperty("predictions", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
                 }
+                printf("END in %f ms.\n", (what_time_is_it_now() - time) * 1000);
                 show_image(im, "predictions");
                 cvWaitKey(0);
                 cvDestroyAllWindows();
