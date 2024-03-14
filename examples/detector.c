@@ -776,10 +776,10 @@ menu:
     printf("===========================================\n");
     printf("=============    YOLO MENU    =============\n");
     printf("===========================================\n");
-    printf("| Press 1 for dectect image                |\n");
-    printf("| Press 2 for dectect video                |\n");
-    printf("| Press 3 for dectect video camera         |\n");
-    printf("| Press 0 for exit                         |\n");
+    printf("| Press 1 for dectect image               |\n");
+    printf("| Press 2 for dectect video               |\n");
+    printf("| Press 3 for dectect video camera        |\n");
+    printf("| Press 0 for exit                        |\n");
     printf("===========================================\n");
     printf("YOUR CHOICE: ");
     scanf("%d", &choice);
