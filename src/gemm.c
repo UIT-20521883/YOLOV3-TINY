@@ -513,6 +513,63 @@ void set_Nonblocking_launch() { NONBLOCKING_LAUNCH = 1; }
 void unset_Nonblocking_launch() { NONBLOCKING_LAUNCH = 0; }
 int get_Nonblocking_launch() { return NONBLOCKING_LAUNCH; }
 
+void gemm_cpu(int TA, int TB, int M, int N, int K, float ALPHA,
+              float *A, int lda,
+              float *B, int ldb,
+              float BETA,
+              float *C, int ldc)
+{
+    // printf("cpu: %d %d %d %d %d %f %d %d %f %d\n",TA, TB, M, N, K, ALPHA, lda, ldb, BETA, ldc);
+    int i, j;
+    for (i = 0; i < M; ++i)
+    {
+        for (j = 0; j < N; ++j)
+        {
+            //            C[i*ldc + j] *= BETA; //BUG :C-matrix is either of row or col-major
+        }
+    }
+    if (!TA && !TB)
+    {
+#ifdef FPGA
+        printf("GEMM 457\n");
+        if (!FPGA_init)
+        {
+            FPGA_init = 1;
+            gemm_fpga_init();
+        }
+        gemm_nn_fpga(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
+#else
+        gemm_nn(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
+#endif
+    }
+    else if (TA && !TB)
+        gemm_tn(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
+    else if (!TA && TB)
+        gemm_nt(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
+    else
+        gemm_ttn(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
+}
+
+void gemm_ntt(int M, int N, int K, float ALPHA,
+              float *A, int lda,
+              float *B, int ldb,
+              float *C, int ldc) // FPGA with im2row and col2row Model
+{
+    int i, j, k;
+    for (j = 0; j < N; ++j)
+    {
+        for (i = 0; i < M; ++i)
+        {
+            register float sum = 0;
+            for (k = 0; k < K; ++k)
+            {
+                sum += ALPHA * A[i * lda + k] * B[j * ldb + k];
+            }
+            C[i + ldc * j] += sum; // C col-major
+        }
+    }
+}
+
 void gemm_ntn(int M, int N, int K, float ALPHA,
               float *A, int lda,
               float *B, int ldb,
@@ -561,7 +618,7 @@ void gemm2(int TA, int TB, int TC,
     if (!TA && !TB && !TC)
     { // R R R   0 0 0
 #ifdef FPGA
-        gemm_nn(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
+        gemm_nn_fpga(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
 #else
         gemm_nn(M, N, K, ALPHA, A, lda, B, ldb, C, ldc);
 #endif
