@@ -752,7 +752,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     set_batch_network(&net, 1);
     if (weightfile)
     {
-        load_weights(&net, weightfile);
+        // load_weights(&net, weightfile);
     }
     srand(2222222);
     double time;
@@ -770,7 +770,30 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         gemm_fpga_init();
     }
     //  printf("Initial OpenCL in %f seconds.\n",  what_time_is_it_now()-time1);
-
+    int choice;
+menu:
+    printf("===========================================\n");
+    printf("=============    YOLO MENU    =============\n");
+    printf("===========================================\n");
+    printf("| Press 1 for dectect image                |\n");
+    printf("| Press 2 for dectect video                |\n");
+    printf("| Press 3 for dectect video camera         |\n");
+    printf("| Press 0 for exit                         |\n");
+    printf("===========================================\n");
+    printf("YOUR CHOICE: ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+        goto event;
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    default:
+        return 0;
+    }
     while (1)
     {
 
@@ -821,6 +844,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
             else
             {
                 save_image(im, "predictions");
+                goto menu;
 #ifdef OPENCV
                 cvNamedWindow("predictions", CV_WINDOW_NORMAL);
                 if (fullscreen)

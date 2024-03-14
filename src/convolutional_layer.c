@@ -748,12 +748,13 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 
     // with FPGA Model for gemm_ntt.cl and gemm_ntt_jik.cl and gemm_ntt_jikK.cl
 #ifdef OPENEXR
-    if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
+    if (0 && (net.index == 0 || net.index == 2 || net.index == 7))
     {
         // time2 = what_time_is_it_now();
         float *a = net.workspace;
         float *b = l.weights;
         float *c = l.output;
+        // TensorDim s1 =num of img, s2= depth , s3 + s4 = w + l
         TensorDim in_dim = {1, l.c, l.h, l.w};
         printf("in_dim %d %d %d %d.\n", 1, l.c, l.h, l.w);
         TensorDim filt_dim = {l.out_c, l.c, l.size, l.size};
@@ -770,7 +771,6 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
     else
     { // gemm_ntt_jikK.cl
         float *a = net.workspace;
-        // float *b = l.weights;
         float *c = l.output;
         float *A = (float *)malloc(sizeof(float) * (l.out_w * l.out_h) * (l.size * l.size * l.c));
         half *a_hf = net.workspace_hf;
