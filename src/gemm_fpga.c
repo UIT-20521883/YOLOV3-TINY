@@ -49,11 +49,11 @@ int gemm_fpga_init()
     {
         aocx = "gemm_emu.aocx", printf("emulator_mode2:%s\n", aocx);
     }
-    const char *k_name[3] = {"gemm_nn9W", "gemm_nnfW", "gemm_nn9fW"};
+    const char *k_name[2] = {"gemm_nn9W", "gemm_nnfW"};
     find_CnKQ(
         "Intel(R) FPGA SDK for OpenCL(TM)",
         aocx,
-        3,
+        2,
         k_name,
         &context, kernels, &command_queue);
     return 0;
