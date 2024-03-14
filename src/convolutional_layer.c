@@ -748,7 +748,7 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 
     // with FPGA Model for gemm_ntt.cl and gemm_ntt_jik.cl and gemm_ntt_jikK.cl
 #ifdef OPENEXR
-    if (0 && (net.index == 0 || net.index == 2 || net.index == 7))
+    if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
     {
         // time2 = what_time_is_it_now();
         float *a = net.workspace;
