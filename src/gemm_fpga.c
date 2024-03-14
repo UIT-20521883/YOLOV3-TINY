@@ -69,7 +69,6 @@ void wait_kernel_finish()
     return;
 }
 
-
 #ifdef OPENEXR
 
 void gemm_ntt_fpga_half(int M, int N, int K, float ALPHA,
@@ -200,7 +199,18 @@ void gemm_ntt_fpga(int M, int N, int K, float ALPHA,
     ret = clReleaseMemObject(memobjC);
     return;
 }
-
+void gemm_nn_fpga(int M, int N, int K, float ALPHA,
+                  half *A, int lda,
+                  half *B, int ldb,
+                  half *C, int ldc)
+{
+}
+void gemm_nn_fpga_half(int M, int N, int K, float ALPHA,
+                       half *A, int lda,
+                       half *B, int ldb,
+                       half *C, int ldc)
+{
+}
 void gemm_fpga_finalize()
 {
     cl_int ret;
