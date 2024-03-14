@@ -771,6 +771,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     }
     //  printf("Initial OpenCL in %f seconds.\n",  what_time_is_it_now()-time1);
     int choice;
+    int choice1;
 menu:
     printf("\e[1;1H\e[2J");
     printf("===========================================\n");
@@ -845,6 +846,7 @@ menu:
             else
             {
                 save_image(im, "predictions");
+                scanf("%d", &choice1);
                 goto menu;
 #ifdef OPENCV
                 cvNamedWindow("predictions", CV_WINDOW_NORMAL);
