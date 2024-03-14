@@ -772,7 +772,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     //  printf("Initial OpenCL in %f seconds.\n",  what_time_is_it_now()-time1);
     int choice;
 menu:
-    clrscr();
+    printf("\e[1;1H\e[2J");
     printf("===========================================\n");
     printf("=============    YOLO MENU    =============\n");
     printf("===========================================\n");
