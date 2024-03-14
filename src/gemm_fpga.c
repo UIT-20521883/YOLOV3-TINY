@@ -191,7 +191,7 @@ void gemm_ntt_fpga_half(int M, int N, int K, float ALPHA,
                              M * N * sizeof(cl_half), C, &ret);
     checkErr(ret, "clCreateBuffer-2");
 
-    if ((K % 512))
+    if (!(K % 144))
     {
         printf("Kernel 1\n");
         kernel = kernels[GEMM9W];
@@ -258,7 +258,7 @@ void gemm_ntt_fpga(int M, int N, int K, float ALPHA,
                              M * N * sizeof(float), C, &ret);
     checkErr(ret, "clCreateBuffer-2");
 
-    if (!(K % 144))
+    if ((K % 128))
     {
         printf("Kernel 1\n");
         kernel = kernels[GEMM9W];
