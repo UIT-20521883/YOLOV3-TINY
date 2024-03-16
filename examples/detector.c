@@ -846,8 +846,8 @@ menu:
             else
             {
                 save_image(im, "predictions");
-                scanf("%d", &choice1);
-                goto menu;
+                // scanf("%d", &choice1);
+                // goto menu;
 #ifdef OPENCV
                 cvNamedWindow("predictions", CV_WINDOW_NORMAL);
                 if (fullscreen)
