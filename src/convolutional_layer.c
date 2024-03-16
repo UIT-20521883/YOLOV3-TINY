@@ -748,29 +748,21 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
 
     // with FPGA Model for gemm_ntt.cl and gemm_ntt_jik.cl and gemm_ntt_jikK.cl
 #ifdef OPENEXR
-    if (1 && (net.index == 0 || net.index == 2 || net.index == 7))
+    if (1 || (net.index == 0 || net.index == 2 || net.index == 7))
     {
-        // time2 = what_time_is_it_now();
         float *a = net.workspace;
         float *b = l.weights;
         float *c = l.output;
-        // TensorDim s1 =num of img, s2= depth , s3 + s4 = w + l
-        TensorDim in_dim = {1, l.c, l.h, l.w};
-        // printf("in_dim %d %d %d %d.\n", 1, l.c, l.h, l.w);
-        TensorDim filt_dim = {l.out_c, l.c, l.size, l.size};
-        // printf("filt_dim %d %d %d %d.\n", l.out_c, l.c, l.size, l.size);
-        CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
-        // printf("CppConvnetIm2Row  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
-#ifdef CBLAS
-        time2 = what_time_is_it_now();
-        cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m);
-        // OK
-        // printf("Openblas  in %f ms.\n", (what_time_is_it_now() - time2) * 1000);
 
+        TensorDim in_dim = {1, l.c, l.h, l.w};
+        TensorDim filt_dim = {l.out_c, l.c, l.size, l.size};
+        CppConvnetIm2Row(a, net.input, out_w, out_h, k, in_dim, filt_dim, l.stride, l.pad);
+#ifdef CBLAS
+        cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m, n, k, 1, a, m, b, k, 1, c, m);
 #endif
     }
     else
-    { // gemm_ntt_jikK.cl
+    { 
         float *a = net.workspace;
         float *c = l.output;
         float *A = (float *)malloc(sizeof(float) * (l.out_w * l.out_h) * (l.size * l.size * l.c));
@@ -784,7 +776,6 @@ void forward_convolutional_layer_hf(convolutional_layer l, network net)
         float2half(m * k, A, 1, a_hf, 1);
         double time1 = what_time_is_it_now();
         gemm_hf(0, 1, 1, m, n, k, 1, a_hf, k, b_hf, k, 1, c_hf, m); // OK for instead of FPGA Model
-        // printf("FPGA in %f ms.\n", (what_time_is_it_now() - time1) * 1000);
         half2float(m * n, c_hf, 1, c, 1);
         free(A);
     }

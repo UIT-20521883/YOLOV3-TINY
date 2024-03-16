@@ -32,7 +32,6 @@ static cl_kernel kernel = NULL;
 static cl_kernel kernels[MAX_ENV];
 #define GEMM9W 0
 #define GEMMfW 1
-#define GEMM9fW 3
 // static cl_platform_id platform_id = NULL;
 
 int gemm_fpga_init()
