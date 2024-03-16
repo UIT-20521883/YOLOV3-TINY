@@ -772,6 +772,8 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
     //  printf("Initial OpenCL in %f seconds.\n",  what_time_is_it_now()-time1);
     int choice;
     int choice1;
+    float fulltime = 0;
+    int cnt = 0;
 menu:
     printf("\e[1;1H\e[2J");
     printf("===========================================\n");
@@ -806,7 +808,6 @@ menu:
             timef = what_time_is_it_now();
             strncpy(input, filename, 256);
             // Thoi gian load anh
-
             image im = load_image_color(input, 0, 0);
             image sized = im;
 
@@ -829,16 +830,14 @@ menu:
             float *X = sized.data;
             time = what_time_is_it_now();
             network_predict(net, X);
+            fulltime += what_time_is_it_now() - time;
+            cnt++;
             printf("%s: Predicted in %f ms.\n", input, (what_time_is_it_now() - time) * 1000);
             time = what_time_is_it_now();
             get_region_boxes(l, im.w, im.h, net.w, net.h, thresh, probs, boxes, masks, 0, 0, hier_thresh, 1);
-            printf("a1\n");
             if (nms)
                 do_nms_obj(boxes, probs, l.w * l.h * l.n, l.classes, nms);
-
-            printf("a2\n");
             draw_detections(im, l.w * l.h * l.n, thresh, boxes, probs, masks, names, alphabet, l.classes);
-            printf("a3\n");
             if (outfile)
             {
                 save_image(im, outfile);
@@ -847,7 +846,9 @@ menu:
             {
                 save_image(im, "predictions");
                 printf("%s: DONE in %f ms.\n", input, (what_time_is_it_now() - timef) * 1000);
-                scanf("%d", &choice1);
+                if (cnt == 1000)
+                    break;
+                // scanf("%d", &choice1);
                 goto menu;
 #ifdef OPENCV
                 cvNamedWindow("predictions", CV_WINDOW_NORMAL);
@@ -923,6 +924,7 @@ menu:
                         time = what_time_is_it_now();
                         network_predict(net, X);
                         predict_time_s += (what_time_is_it_now() - time);
+
                         printf("%s: Predicted in %f seconds.\n", input, what_time_is_it_now() - time);
 
                         get_region_boxes(l, im.w, im.h, net.w, net.h, thresh, probs, boxes, masks, 0, 0, hier_thresh, 1);
