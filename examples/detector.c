@@ -832,9 +832,13 @@ menu:
             printf("%s: Predicted in %f ms.\n", input, (what_time_is_it_now() - time) * 1000);
             time = what_time_is_it_now();
             get_region_boxes(l, im.w, im.h, net.w, net.h, thresh, probs, boxes, masks, 0, 0, hier_thresh, 1);
+            printf("a1\n");
             if (nms)
                 do_nms_obj(boxes, probs, l.w * l.h * l.n, l.classes, nms);
+
+            printf("a2\n");
             draw_detections(im, l.w * l.h * l.n, thresh, boxes, probs, masks, names, alphabet, l.classes);
+            printf("a3\n");
             if (outfile)
             {
                 save_image(im, outfile);
