@@ -755,7 +755,7 @@ void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filenam
         // load_weights(&net, weightfile);
     }
     srand(2222222);
-    double time;
+    double time, timef;
     char buff[256];
     char *input = buff;
     int j;
