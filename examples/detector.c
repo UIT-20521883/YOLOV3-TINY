@@ -847,7 +847,12 @@ menu:
                 save_image(im, "predictions");
                 printf("%s: DONE in %f ms.\n", input, (what_time_is_it_now() - timef) * 1000);
                 if (cnt == 1000)
+                {
+                    printf("AVG time/image = %f", fulltime / 1000);
                     break;
+                }
+                else
+                    goto event;
                 // scanf("%d", &choice1);
                 goto menu;
 #ifdef OPENCV
