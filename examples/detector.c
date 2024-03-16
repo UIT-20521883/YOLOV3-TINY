@@ -802,16 +802,13 @@ menu:
         if (filename)
         {
         event:
+            time = what_time_is_it_now();
+            timef = what_time_is_it_now();
             strncpy(input, filename, 256);
             // Thoi gian load anh
-            time = what_time_is_it_now();
+
             image im = load_image_color(input, 0, 0);
             image sized = im;
-            printf("Loaded in %f ms.\n", (what_time_is_it_now() - time) * 1000);
-
-            // Thoi gian resized anh
-            time = what_time_is_it_now();
-            // image sized = letterbox_image(im, net.w, net.h);
 
             int dd = sized.h * sized.w * sized.c;
             layer l = net.layers[net.n - 1];
@@ -828,9 +825,8 @@ menu:
                 for (j = 0; j < l.w * l.h * l.n; ++j)
                     masks[j] = calloc(l.coords - 4, sizeof(float));
             }
-
+            printf("Loaded in %f ms.\n", (what_time_is_it_now() - time) * 1000);
             float *X = sized.data;
-            printf("Total load in %f ms.\n", (what_time_is_it_now() - time) * 1000);
             time = what_time_is_it_now();
             network_predict(net, X);
             printf("%s: Predicted in %f ms.\n", input, (what_time_is_it_now() - time) * 1000);
@@ -846,8 +842,9 @@ menu:
             else
             {
                 save_image(im, "predictions");
-                // scanf("%d", &choice1);
-                // goto menu;
+                printf("%s: DONE in %f ms.\n", input, (what_time_is_it_now() - timef) * 1000);
+                scanf("%d", &choice1);
+                goto menu;
 #ifdef OPENCV
                 cvNamedWindow("predictions", CV_WINDOW_NORMAL);
                 if (fullscreen)
