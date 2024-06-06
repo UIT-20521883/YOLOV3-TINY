@@ -81,3 +81,4 @@ int main()
     return 0;
 }
 // test
+// alias pp='function _pp(){ git add . && git commit -m "$1" && git push origin gemm; }; _pp'
